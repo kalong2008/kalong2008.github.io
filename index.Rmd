@@ -20,15 +20,65 @@ When you click the **Knit** button a document will be generated that includes bo
 require(knitr)
 require(arsenal)
 require(readr)
+require(car)
 ```
 
-```{r, load-data, , echo = FALSE, message = FALSE}
+```{r, load-data, , echo = FALSE, message = FALSE, warning = FALSE}
 dataset2 <- read_csv("dataset2.csv")
 dataset2 <- as.data.frame(unclass(dataset2),stringsAsFactors = TRUE)
+dataset2$age_r <- dataset2$age
+dataset2$age_r <- recode(dataset2$age_r, "c('18-24 years')='18-24 years';c('25-44 years') = '25-44 years';c('45-64 years', '65 years or above') = '45 years or above'")
 ```
 
+## Demographic information
+
+
+```{r demographic, results='asis', echo = FALSE}
+summary(tableby(~ age + age_r + gender + self_own + private_housing + living_with_family + edu_r + occupation_status + occupation_status_r + occupation + salary + covid_living_building_r + district, data=dataset2))
+```
+
+## Spirituality
+
+```{r spirituality, results='asis', echo = FALSE}
+summary(tableby(~ FACIT_meaning + FACIT_peace + FACIT_faith, data=dataset2))
+```
+
+## Religion behaviour and belief
+
+```{r religion, results='asis', echo = FALSE}
+summary(tableby(~ religion_scale_1 + religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study + religion_scale_5_r_health_important, data=dataset2))
+```
+
+## Perceived Stress
+
+```{r stress, results='asis', echo = FALSE}
+summary(tableby(~ IES_intrusion + IES_avoidance + IES_hyperarousal, data=dataset2))
+```
+
+## Coping
+
+```{r coping, results='asis', echo = FALSE}
+summary(tableby(~ Brief_RCOPE_postive + Brief_RCOPE_negative, data=dataset2))
+```
+
+## Mental Health
+
+```{r mental, results='asis', echo = FALSE}
+summary(tableby(~ HADS_anxiety + HADS_anxiety_group_r + HADS_depression + HADS_depression_group_r + HADS_group_normal, data=dataset2))
+```
+
+## Difference
+
+```{r difference, results='asis', echo = FALSE}
+summary(tableby(religion_scale_2_r_attend_r ~ religion_scale_1 + religion_scale_3_r_pray + religion_scale_4_r_study_r_almost_each_day + FACIT_meaning + FACIT_peace + FACIT_faith + IES_intrusion + IES_avoidance + IES_hyperarousal + Brief_RCOPE_postive + Brief_RCOPE_negative + HADS_anxiety + HADS_depression + log(sdi) + age_r + gender + bachelor_above, data=dataset2))
+```
+
+## Regression Result
+
 ```{r Regression, results='asis', echo = FALSE}
-summary(modelsum(list(religion_scale_2_r_attend_r, religion_scale_3_r_pray, religion_scale_4_r_study_r_almost_each_day, religion_scale_4_r_study_r_each_day) ~ religion_scale_1, adjust= ~FACIT_meaning + FACIT_peace + FACIT_faith + IES_intrusion + IES_avoidance + IES_hyperarousal + HADS_anxiety + HADS_depression, data=dataset2, family = binomial, 
+summary(modelsum(religion_scale_2_r_attend_r ~ religion_scale_1, adjust= ~religion_scale_3_r_pray + FACIT_meaning + FACIT_peace + FACIT_faith + IES_intrusion + IES_avoidance + IES_hyperarousal + Brief_RCOPE_postive + Brief_RCOPE_negative + HADS_anxiety + HADS_depression + log(sdi) + age_r + gender + bachelor_above, data=dataset2, family = binomial, 
                          #binomial.stats=c("OR", "CI.lower.OR", "CI.upper.OR", "p.value", "concordance", "statistic", "logLik", "AIC", "BIC")
                          ), term.name = TRUE)
 ```
+
+
