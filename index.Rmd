@@ -70,7 +70,7 @@ summary(tableby(~ HADS_anxiety + HADS_anxiety_group_r + HADS_depression + HADS_d
 ## Difference
 
 ```{r difference, results='asis', echo = FALSE}
-summary(tableby(religion_scale_2_r_attend_r ~ religion_scale_1 + religion_scale_3_r_pray + religion_scale_4_r_study_r_almost_each_day + FACIT_meaning + FACIT_peace + FACIT_faith + IES_intrusion + IES_avoidance + IES_hyperarousal + Brief_RCOPE_postive + Brief_RCOPE_negative + HADS_anxiety + HADS_depression + log(sdi) + age_r + gender + bachelor_above, data=dataset2))
+summary(tableby(religion_scale_2_r_attend_r ~ religion_scale_1 + religion_scale_3_r_pray + religion_scale_4_r_study_r_almost_each_day + FACIT_meaning + FACIT_peace + FACIT_faith + IES_intrusion + IES_avoidance + IES_hyperarousal + Brief_RCOPE_postive + Brief_RCOPE_negative + HADS_anxiety + HADS_depression + sdi + age_r + gender + bachelor_above + occupation_status_r + high_income + married + self_own + private_housing + living_with_family, data=dataset2))
 ```
 
 ## Regression Result
