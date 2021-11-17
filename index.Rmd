@@ -21,6 +21,7 @@ require(knitr)
 require(arsenal)
 require(readr)
 require(car)
+require(dlookr)
 ```
 
 ```{r, load-data, , echo = FALSE, message = FALSE, warning = FALSE}
@@ -76,9 +77,9 @@ summary(tableby(religion_scale_2_r_attend_r ~ religion_scale_1 + religion_scale_
 ## Regression Result
 
 ```{r Regression, results='asis', echo = FALSE}
-summary(modelsum(religion_scale_2_r_attend_r ~ religion_scale_1, adjust= ~religion_scale_3_r_pray + FACIT_meaning + FACIT_peace + FACIT_faith + IES_intrusion + IES_avoidance + IES_hyperarousal + Brief_RCOPE_postive + Brief_RCOPE_negative + HADS_anxiety + HADS_depression + log(sdi) + age_r + gender + bachelor_above, data=dataset2, family = binomial, 
-                         #binomial.stats=c("OR", "CI.lower.OR", "CI.upper.OR", "p.value", "concordance", "statistic", "logLik", "AIC", "BIC")
-                         ), term.name = TRUE)
+summary(modelsum(list(HADS_anxiety, HADS_depression) ~ religion_scale_2_r_attend_r, 
+                 adjust= ~  religion_scale_3_r_pray + IES_intrusion + IES_avoidance + IES_hyperarousal 
+                 + gender + age_r + married, data=dataset2), term.name = TRUE)
 ```
 
 
