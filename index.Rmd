@@ -22,6 +22,7 @@ require(arsenal)
 require(readr)
 require(car)
 require(dlookr)
+require(Hmisc)
 ```
 
 ```{r, load-data, , echo = FALSE, message = FALSE, warning = FALSE}
@@ -29,13 +30,65 @@ dataset2 <- read_csv("dataset2.csv")
 dataset2 <- as.data.frame(unclass(dataset2),stringsAsFactors = TRUE)
 dataset2$age_r <- dataset2$age
 dataset2$age_r <- recode(dataset2$age_r, "c('18-24 years')='18-24 years';c('25-44 years') = '25-44 years';c('45-64 years', '65 years or above') = '45 years or above'")
+dataset3 <- subset(dataset2, Language=="Chi" & country=="Hong Kong", data=dataset2)
+mylabels <- c(religion_scale_2_r_attend_r = 'Attending religious meeting',
+religion_scale_1 = 'Self-perceived devotion',
+religion_scale_3_r_pray = 'Personal pray',
+religion_scale_4_r_study_r_almost_each_day = 'Studying religious books/materials',
+religion_scale_4_r_study_r_each_day = 'Studying religious books/materials',
+FACIT_meaning = 'Spirituality-meaning',
+FACIT_peace = 'Spirituality-peace',
+FACIT_faith = 'Spirituality-faith',
+IES_intrusion = 'Stress response-intrusion',
+IES_avoidance = 'Stress response-avoidance',
+IES_hyperarousal = 'Stress response-hyperarousal',
+Brief_RCOPE_postive = 'Religious coping-positive',
+Brief_RCOPE_negative = 'Religious coping-negative',
+rief_COPE_avoid = 'Coping-avoidance',
+Brief_COPE_restruct = 'Coping-cognitive restructuring',
+Brief_COPE_distract = 'Coping-distraction',
+Brief_COPE_support = 'Coping-social support',
+Brief_COPE_problem_solving = 'Coping-problem solving',
+HADS_anxiety = 'Anxiety',
+HADS_anxiety_group_r = 'Anxiety',
+HADS_depression = 'Depression',
+HADS_depression_group_r = 'Depression',
+sdi = 'Social deprivation index',
+age = 'Age',
+age_r = 'Age',
+gender = 'Gender',
+edu = 'Education',
+edu_r = 'Education',
+bachelor_above = 'Bachelor degree or above',
+occupation_status = 'Employment status',
+occupation_status_r = 'Employment status',
+occupation = 'Occupation',
+high_income = 'High income',
+married = 'Married',
+self_own = 'Leasehold ',
+private_housing = 'Living in private housing',
+living_with_family = 'Living with family member',
+salary = 'Salary',
+covid_living_building_r  = 'COVID-19 in neighbour',
+district = 'Living district',
+religion_scale_2_r_attend = 'Attending religious meeting',
+religion_scale_4_r_study = 'Studying religious books/materials',
+religion_scale_5_r_health_important  = 'Importance of health')
+label(dataset2) = as.list(mylabels[match(names(dataset3), names(mylabels))])
+
+mycontrols  <- tableby.control(numeric.stats = c("meansd", "range"),
+  cat.stats = c("countpct"),
+  ordered.stats = c("countpct"),
+  surv.stats = c("Nevents", "medSurv"),
+  date.stats = c("median", "range"),
+  selectall.stats = c("countpct"))
 ```
 
 ## Demographic information
 
 
 ```{r demographic, results='asis', echo = FALSE}
-summary(tableby(~ age + age_r + gender + self_own + private_housing + living_with_family + edu_r + occupation_status + occupation_status_r + occupation + salary + covid_living_building_r + district, data=dataset2))
+summary(tableby(~ age + age_r + gender + self_own + private_housing + living_with_family + edu_r + occupation_status + occupation_status_r + occupation + salary + covid_living_building_r + district, data=dataset2, control=mycontrols))
 ```
 
 ## Spirituality
@@ -65,21 +118,20 @@ summary(tableby(~ Brief_RCOPE_postive + Brief_RCOPE_negative, data=dataset2))
 ## Mental Health
 
 ```{r mental, results='asis', echo = FALSE}
-summary(tableby(~ HADS_anxiety + HADS_anxiety_group_r + HADS_depression + HADS_depression_group_r + HADS_group_normal, data=dataset2))
+summary(tableby(~ HADS_anxiety + HADS_anxiety_group_r + HADS_depression + HADS_depression_group_r, data=dataset2))
 ```
 
 ## Difference
 
 ```{r difference, results='asis', echo = FALSE}
-summary(tableby(religion_scale_2_r_attend_r ~ religion_scale_1 + religion_scale_3_r_pray + religion_scale_4_r_study_r_almost_each_day + FACIT_meaning + FACIT_peace + FACIT_faith + IES_intrusion + IES_avoidance + IES_hyperarousal + Brief_RCOPE_postive + Brief_RCOPE_negative + HADS_anxiety + HADS_depression + sdi + age_r + gender + bachelor_above + occupation_status_r + high_income + married + self_own + private_housing + living_with_family, data=dataset2))
+summary(tableby(religion_scale_2_r_attend_r ~ religion_scale_1 + religion_scale_3_r_pray + religion_scale_4_r_study_r_almost_each_day + FACIT_meaning + FACIT_peace + FACIT_faith + IES_intrusion + IES_avoidance + IES_hyperarousal + Brief_RCOPE_postive + Brief_RCOPE_negative + HADS_anxiety + HADS_depression + sdi + age_r + gender + bachelor_above + occupation_status_r + high_income + married + self_own + private_housing + living_with_family, data=dataset2, control=mycontrols))
 ```
 
 ## Regression Result
 
+# Mental Health
+
 ```{r Regression, results='asis', echo = FALSE}
 summary(modelsum(list(HADS_anxiety, HADS_depression) ~ religion_scale_2_r_attend_r, 
-                 adjust= ~  religion_scale_3_r_pray + IES_intrusion + IES_avoidance + IES_hyperarousal 
-                 + gender + age_r + married, data=dataset2), term.name = TRUE)
+adjust= ~  religion_scale_3_r_pray + IES_intrusion + IES_avoidance + IES_hyperarousal + gender + age_r + married, data=dataset2), term.name = TRUE)
 ```
-
-
