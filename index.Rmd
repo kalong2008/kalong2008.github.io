@@ -2,7 +2,7 @@
 title: "Result"
 author: "Ka Long"
 date: "11/17/2021"
-output: html_document
+output: pdf_document
 ---
 
 
@@ -50,9 +50,9 @@ Brief_COPE_distract = 'Coping-distraction',
 Brief_COPE_support = 'Coping-social support',
 Brief_COPE_problem_solving = 'Coping-problem solving',
 HADS_anxiety = 'Anxiety',
-HADS_anxiety_group_r = 'Anxiety',
+HADS_anxiety_group_r = 'Anxiety category',
 HADS_depression = 'Depression',
-HADS_depression_group_r = 'Depression',
+HADS_depression_group_r = 'Depression category',
 sdi = 'Social deprivation index',
 age = 'Age',
 age_r = 'Age',
@@ -88,7 +88,7 @@ mycontrols  <- tableby.control(numeric.stats = c("meansd", "range"),
 
 
 ```{r demographic, results='asis', echo = FALSE}
-summary(tableby(~ age + age_r + gender + self_own + private_housing + living_with_family + edu_r + occupation_status + occupation_status_r + occupation + salary + covid_living_building_r + district, data=dataset2, control=mycontrols))
+summary(tableby(~ age_r + gender + self_own + private_housing + living_with_family + edu_r + occupation_status + occupation + salary + covid_living_building_r + district, data=dataset2, control=mycontrols))
 ```
 
 ## Spirituality
@@ -129,9 +129,21 @@ summary(tableby(religion_scale_2_r_attend_r ~ religion_scale_1 + religion_scale_
 
 ## Regression Result
 
-# Mental Health
-
 ```{r Regression, results='asis', echo = FALSE}
-summary(modelsum(list(HADS_anxiety, HADS_depression) ~ religion_scale_2_r_attend_r, 
-adjust= ~  religion_scale_3_r_pray + IES_intrusion + IES_avoidance + IES_hyperarousal + gender + age_r + married, data=dataset2), term.name = TRUE)
+summary(modelsum(list(religion_scale_1,FACIT_meaning,FACIT_peace, FACIT_faith,
+                      Brief_RCOPE_postive, Brief_RCOPE_negative,
+                      HADS_anxiety, HADS_depression, 
+                      IES_intrusion, IES_avoidance, IES_hyperarousal) ~ religion_scale_2_r_attend, 
+  adjust= ~ religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day
+  + living_with_family
+  + household_size
+  + age_r
+  + gender
+  + edu
+  #+ bachelor_above
+  #+ married
+  + marital
+  + private_housing
+  #+ self_own
+  , data=dataset2), term.name = TRUE)
 ```
