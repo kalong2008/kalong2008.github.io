@@ -3,8 +3,8 @@ title: "SDA sample result"
 author: "Name of Research Team"
 date: "11/17/2021"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
 
 
@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction
 
-A cross sectional questionnaire-based internet study was conducted from August to October 2020. We recruited convenience samples of community dwelling adults aged 18 years or above living in Hong Kong who were able to read and write either Chinese or English. No specific religious belief or denomination was required to participate in the study.  Using a non-randomized referral sampling (snowball sampling) method through online invitations as well as electronic communication channels including posts on social media platforms, direct digital messaging, and personal email lists.  An online survey using Google Form that required 10-15 minutes to complete was distributed to all potential participants. A special provision was allowed for assistance for participants aged 60 years or above if they were not comfortable with virtual platforms. As an incentive to participate in the study, participants were invited to enter names and contact information into a lucky draw. Ten participants would be selected to win a range of HK$ 200-500 (US$25-65) supermarket coupons. A total of 418 responses were received for the study. Excluding those with duplicated submission, there were 360 valid responses. On those valid responses, only 112 participants self-reported that they were Seventh-day Adventist (`r 112/360*100`%). Therefore, the current report will only include SDA sample.
+A cross sectional questionnaire-based internet study was conducted from August to October 2020. We recruited convenience samples of community dwelling adults aged 18 years or above living in Hong Kong who were able to read and write either Chinese or English. No specific religious belief or denomination was required to participate in the study.  Using a non-randomized referral sampling (snowball sampling) method through online invitations as well as electronic communication channels including posts on social media platforms, direct digital messaging, and personal email lists.  An online survey using Google Form that required 10-15 minutes to complete was distributed to all potential participants. A special provision was allowed for assistance for participants aged 60 years or above if they were not comfortable with virtual platforms. As an incentive to participate in the study, participants were invited to enter names and contact information into a lucky draw. Ten participants would be selected to win a range of HK$ 200-500 (US$25-65) supermarket coupons. A total of 418 responses were received for the study. Excluding those with duplicated submission, there were 360 valid responses. On those valid responses, only 112 participants self-reported that they were Seventh-day Adventist (`r format(round(112/360*100, 1), nsmall = 1)`%). Therefore, the current report will only include SDA sample.
 
 ```{r load-library, echo = FALSE, message = FALSE}
 require(knitr)
