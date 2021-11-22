@@ -1,8 +1,10 @@
 ---
-title: "Result"
-author: "Ka Long"
+title: "SDA sample result"
+author: "Name of Research Team"
 date: "11/17/2021"
-output: pdf_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 
@@ -10,11 +12,9 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## Introduction
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+A cross sectional questionnaire-based internet study was conducted from August to October 2020. We recruited convenience samples of community dwelling adults aged 18 years or above living in Hong Kong who were able to read and write either Chinese or English. No specific religious belief or denomination was required to participate in the study.  Using a non-randomized referral sampling (snowball sampling) method through online invitations as well as electronic communication channels including posts on social media platforms, direct digital messaging, and personal email lists.  An online survey using Google Form that required 10-15 minutes to complete was distributed to all potential participants. A special provision was allowed for assistance for participants aged 60 years or above if they were not comfortable with virtual platforms. As an incentive to participate in the study, participants were invited to enter names and contact information into a lucky draw. Ten participants would be selected to win a range of HK$ 200-500 (US$25-65) supermarket coupons. A total of 418 responses were received for the study. Excluding those with duplicated submission, there were 360 valid responses. On those valid responses, only 112 participants self-reported that they were Seventh-day Adventist (`r 112/360*100`%). Therefore, the current report will only include SDA sample.
 
 ```{r load-library, echo = FALSE, message = FALSE}
 require(knitr)
@@ -73,7 +73,9 @@ covid_living_building_r  = 'COVID-19 in neighbour',
 district = 'Living district',
 religion_scale_2_r_attend = 'Attending religious meeting',
 religion_scale_4_r_study = 'Studying religious books/materials',
-religion_scale_5_r_health_important  = 'Importance of health')
+religion_scale_5_r_health_important  = 'Importance of health',
+household_size = 'Household size',
+marital = 'Marital status')
 label(dataset2) = as.list(mylabels[match(names(dataset3), names(mylabels))])
 
 mycontrols  <- tableby.control(numeric.stats = c("meansd", "range"),
@@ -124,7 +126,7 @@ summary(tableby(~ HADS_anxiety + HADS_anxiety_group_r + HADS_depression + HADS_d
 ## Difference
 
 ```{r difference, results='asis', echo = FALSE}
-summary(tableby(religion_scale_2_r_attend_r ~ religion_scale_1 + religion_scale_3_r_pray + religion_scale_4_r_study_r_almost_each_day + FACIT_meaning + FACIT_peace + FACIT_faith + IES_intrusion + IES_avoidance + IES_hyperarousal + Brief_RCOPE_postive + Brief_RCOPE_negative + HADS_anxiety + HADS_depression + sdi + age_r + gender + bachelor_above + occupation_status_r + high_income + married + self_own + private_housing + living_with_family, data=dataset2, control=mycontrols))
+summary(tableby(religion_scale_2_r_attend ~ religion_scale_1 + religion_scale_3_r_pray + religion_scale_4_r_study_r_almost_each_day + FACIT_meaning + FACIT_peace + FACIT_faith + IES_intrusion + IES_avoidance + IES_hyperarousal + Brief_RCOPE_postive + Brief_RCOPE_negative + HADS_anxiety + HADS_depression + sdi + age_r + gender + bachelor_above + occupation_status_r + high_income + married + self_own + private_housing + living_with_family, data=dataset2, control=mycontrols))
 ```
 
 ## Regression Result
