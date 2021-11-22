@@ -2,9 +2,10 @@
 title: "SDA sample result"
 author: "Name of Research Team"
 date: "11/17/2021"
+latex_engine: xelatex
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 
@@ -23,6 +24,8 @@ require(readr)
 require(car)
 require(dlookr)
 require(Hmisc)
+require(gtsummary)
+require(flextable)
 ```
 
 ```{r, load-data, , echo = FALSE, message = FALSE, warning = FALSE}
@@ -84,6 +87,7 @@ mycontrols  <- tableby.control(numeric.stats = c("meansd", "range"),
   surv.stats = c("Nevents", "medSurv"),
   date.stats = c("median", "range"),
   selectall.stats = c("countpct"))
+set_flextable_defaults(fonts_ignore=TRUE)
 ```
 
 ## Demographic information
@@ -148,4 +152,13 @@ summary(modelsum(list(religion_scale_1,FACIT_meaning,FACIT_peace, FACIT_faith,
   + private_housing
   #+ self_own
   , data=dataset2), term.name = TRUE)
+```
+
+## Regression1 Result
+
+```{r Regression_1, results='asis', echo = FALSE}
+fit <- lm(religion_scale_1 ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r
+                     + gender + edu + marital + private_housing
+                     , data=dataset2)
+tbl_regression(fit, intercept=TRUE, estimate_fun= ~style_pvalue(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared)) %>% as_flex_table()
 ```
