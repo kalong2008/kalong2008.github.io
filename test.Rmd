@@ -1,0 +1,100 @@
+---
+title: "SDA sample result"
+author: "Name of Research Team"
+date: "11/17/2021"
+
+output:
+  pdf_document: 
+    latex_engine: xelatex
+  html_document: default
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+A cross sectional questionnaire-based internet study was conducted from August to October 2020. We recruited convenience samples of community dwelling adults aged 18 years or above living in Hong Kong who were able to read and write either Chinese or English. No specific religious belief or denomination was required to participate in the study.  Using a non-randomized referral sampling (snowball sampling) method through online invitations as well as electronic communication channels including posts on social media platforms, direct digital messaging, and personal email lists.  An online survey using Google Form that required 10-15 minutes to complete was distributed to all potential participants. A special provision was allowed for assistance for participants aged 60 years or above if they were not comfortable with virtual platforms. As an incentive to participate in the study, participants were invited to enter names and contact information into a lucky draw. Ten participants would be selected to win a range of HK$ 200-500 (US$25-65) supermarket coupons. A total of 418 responses were received for the study. Excluding those with duplicated submission, there were 360 valid responses. On those valid responses, only 112 participants self-reported that they were Seventh-day Adventist (`r format(round(112/360*100, 1), nsmall = 1)`%). Therefore, the current report will only include SDA sample.
+
+```{r load-library, echo = FALSE, message = FALSE}
+require(knitr)
+require(arsenal)
+require(readr)
+require(car)
+require(dlookr)
+require(Hmisc)
+require(gtsummary)
+require(flextable)
+```
+
+```{r, load-data, , echo = FALSE, message = FALSE, warning = FALSE}
+dataset2 <- read_csv("dataset2.csv")
+dataset2 <- as.data.frame(unclass(dataset2),stringsAsFactors = TRUE)
+dataset2$age_r <- dataset2$age
+dataset2$age_r <- recode(dataset2$age_r, "c('18-24 years')='18-24 years';c('25-44 years') = '25-44 years';c('45-64 years', '65 years or above') = '45 years or above'")
+dataset3 <- subset(dataset2, Language=="Chi" & country=="Hong Kong", data=dataset2)
+mylabels <- c(religion_scale_2_r_attend_r = 'Attending religious meeting',
+religion_scale_1 = 'Self-perceived devotion',
+religion_scale_3_r_pray = 'Personal pray',
+religion_scale_4_r_study_r_almost_each_day = 'Studying religious books/materials',
+religion_scale_4_r_study_r_each_day = 'Studying religious books/materials',
+FACIT_meaning = 'Spirituality-meaning',
+FACIT_peace = 'Spirituality-peace',
+FACIT_faith = 'Spirituality-faith',
+IES_intrusion = 'Stress response-intrusion',
+IES_avoidance = 'Stress response-avoidance',
+IES_hyperarousal = 'Stress response-hyperarousal',
+Brief_RCOPE_postive = 'Religious coping-positive',
+Brief_RCOPE_negative = 'Religious coping-negative',
+rief_COPE_avoid = 'Coping-avoidance',
+Brief_COPE_restruct = 'Coping-cognitive restructuring',
+Brief_COPE_distract = 'Coping-distraction',
+Brief_COPE_support = 'Coping-social support',
+Brief_COPE_problem_solving = 'Coping-problem solving',
+HADS_anxiety = 'Anxiety',
+HADS_anxiety_group_r = 'Anxiety category',
+HADS_depression = 'Depression',
+HADS_depression_group_r = 'Depression category',
+sdi = 'Social deprivation index',
+age = 'Age',
+age_r = 'Age',
+gender = 'Gender',
+edu = 'Education',
+edu_r = 'Education',
+bachelor_above = 'Bachelor degree or above',
+occupation_status = 'Employment status',
+occupation_status_r = 'Employment status',
+occupation = 'Occupation',
+high_income = 'High income',
+married = 'Married',
+self_own = 'Leasehold ',
+private_housing = 'Living in private housing',
+living_with_family = 'Living with family member',
+salary = 'Salary',
+covid_living_building_r  = 'COVID-19 in neighbour',
+district = 'Living district',
+religion_scale_2_r_attend = 'Attending religious meeting',
+religion_scale_4_r_study = 'Studying religious books/materials',
+religion_scale_5_r_health_important  = 'Importance of health',
+household_size = 'Household size',
+marital = 'Marital status')
+label(dataset2) = as.list(mylabels[match(names(dataset3), names(mylabels))])
+
+mycontrols  <- tableby.control(numeric.stats = c("meansd", "range"),
+  cat.stats = c("countpct"),
+  ordered.stats = c("countpct"),
+  surv.stats = c("Nevents", "medSurv"),
+  date.stats = c("median", "range"),
+  selectall.stats = c("countpct"))
+set_flextable_defaults(fonts_ignore=TRUE)
+#set_table_properties(layout = "autofit")
+```
+
+### Self-perceived devotion
+
+```{r Regression_1, results='asis', echo = FALSE, message = FALSE}
+tbl_summary(dataset2, by = religion_scale_2_r_attend, include =c(age_r,gender,edu_r,occupation_status,salary), missing="no", statistic = list(all_continuous() ~ "{mean} ({sd})"),digits = all_continuous() ~ 2) %>% bold_labels() %>% add_p(pvalue_fun = ~style_pvalue(.x, digits = 3)) %>% bold_p(t = 0.05) %>%
+  add_overall() %>% as_flex_table() %>% width(j = c(1, 2, 3, 4), width = 1) %>% width(j = 5, width = 0.6)
+```

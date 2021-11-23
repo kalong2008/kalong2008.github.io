@@ -2,10 +2,10 @@
 title: "SDA sample result"
 author: "Name of Research Team"
 date: "11/17/2021"
-latex_engine: xelatex
 output:
+  pdf_document: 
+    latex_engine: xelatex
   html_document: default
-  pdf_document: default
 ---
 
 
@@ -88,77 +88,131 @@ mycontrols  <- tableby.control(numeric.stats = c("meansd", "range"),
   date.stats = c("median", "range"),
   selectall.stats = c("countpct"))
 set_flextable_defaults(fonts_ignore=TRUE)
+#set_table_properties(layout = "autofit")
+
+levels(dataset2$religion_scale_2_r_attend) <- list("< 1/week"  = "2. less than 1 time/week", "1/week" = "3. 1 time/week", "> 1/week" = "4. 1 time more/week")
+levels(dataset2$religion_scale_3_r_pray) <- list("< 1/day"  = "2. less than 1 time/day", ">= 1/day" = "3. 1 time or more/day")
+levels(dataset2$religion_scale_4_r_study) <- list("< 1/week"  = "2. less than 1/week", "1/week" = "3. 1 time/week", "2-3/week" = "4. 2-3 times/week", "4-6/week" = "5. 4-6 times/week", ">= 1/day" = "6. 1 time or more/day")
+levels(dataset2$occupation_status) <- list("Full time"  = "1. Full time", "Self employed" = "2. Self employed", "Part time" = "3. Part time", "Unemployed" = "4. Unemployed", "Retired" = "5. Retired", "Student" = "6. Student")
+levels(dataset2$edu_r) <- list("Secondary school or below"  = "1. Secondary school or below", "Post secondary" = "2. Post secondary Diploma/Certificate Program", "Bachelor" = "3. Bachelor degree", "Master or above" = "4. Master  degree or higher")
+levels(dataset2$HADS_anxiety_group_r) <- list("Abnormal"  = "1. abnormal", "Borderline abnormal" = "2. borderline abnormal", "Normal" = "3. normal")
+levels(dataset2$HADS_depression_group_r) <- list("Abnormal"  = "1. abnormal", "Borderline abnormal" = "2. borderline abnormal", "Normal" = "3. normal")
+
+
 ```
 
 ## Demographic information
 
 
 ```{r demographic, results='asis', echo = FALSE}
-summary(tableby(~ age_r + gender + self_own + private_housing + living_with_family + edu_r + occupation_status + occupation + salary + covid_living_building_r + district, data=dataset2, control=mycontrols))
+tbl_summary(dataset2, by = religion_scale_2_r_attend, include =c(age_r,gender,edu_r,occupation_status,salary), missing="no", statistic = list(all_continuous() ~ "{mean} ({sd})"),digits = all_continuous() ~ 2) %>% bold_labels() %>% add_p(pvalue_fun = ~style_pvalue(.x, digits = 3)) %>% bold_p(t = 0.05) %>%
+  add_overall() %>% modify_header(update = list(p.value ~ "**p**")) %>% as_flex_table() %>% width(j = c(1, 2, 3, 4), width = 1.5) %>% width(j = 5, width = 0.6)
 ```
 
 ## Spirituality
 
 ```{r spirituality, results='asis', echo = FALSE}
-summary(tableby(~ FACIT_meaning + FACIT_peace + FACIT_faith, data=dataset2))
+tbl_summary(dataset2, by = religion_scale_2_r_attend, include =c(FACIT_meaning,FACIT_peace,FACIT_faith), missing="no", statistic = list(all_continuous() ~ "{mean} ({sd})"),digits = all_continuous() ~ 2, type = list(FACIT_meaning ~ "continuous")) %>% bold_labels() %>% add_p(pvalue_fun = ~style_pvalue(.x, digits = 3)) %>% bold_p(t = 0.05) %>%
+  add_overall() %>% modify_header(update = list(p.value ~ "**p**")) %>% as_flex_table() %>% width(j = c(1, 2, 3, 4), width = 1.5) %>% width(j = 5, width = 0.6)
 ```
 
 ## Religion behaviour and belief
 
 ```{r religion, results='asis', echo = FALSE}
-summary(tableby(~ religion_scale_1 + religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study + religion_scale_5_r_health_important, data=dataset2))
+tbl_summary(dataset2, by = religion_scale_2_r_attend, include =c(religion_scale_1,religion_scale_2_r_attend,religion_scale_3_r_pray,religion_scale_4_r_study), missing="no", statistic = list(all_continuous() ~ "{mean} ({sd})"),digits = all_continuous() ~ 2, type = list(religion_scale_1 ~ "continuous")) %>% bold_labels() %>% add_p(pvalue_fun = ~style_pvalue(.x, digits = 3)) %>% bold_p(t = 0.05) %>%
+  add_overall() %>% modify_header(update = list(p.value ~ "**p**")) %>% as_flex_table() %>% width(j = c(1, 2, 3, 4), width = 1.5) %>% width(j = 5, width = 0.6)
 ```
 
 ## Perceived Stress
 
 ```{r stress, results='asis', echo = FALSE}
-summary(tableby(~ IES_intrusion + IES_avoidance + IES_hyperarousal, data=dataset2))
+tbl_summary(dataset2, by = religion_scale_2_r_attend, include =c(IES_intrusion,IES_avoidance,IES_hyperarousal), missing="no", statistic = list(all_continuous() ~ "{mean} ({sd})"),digits = all_continuous() ~ 2, type = list(IES_intrusion ~ "continuous",IES_avoidance ~ "continuous",IES_hyperarousal ~ "continuous")) %>% bold_labels() %>% add_p(pvalue_fun = ~style_pvalue(.x, digits = 3)) %>% bold_p(t = 0.05) %>%
+  add_overall() %>% modify_header(update = list(p.value ~ "**p**")) %>% as_flex_table() %>% width(j = c(1, 2, 3, 4), width = 1.5) %>% width(j = 5, width = 0.6)
 ```
 
 ## Coping
 
 ```{r coping, results='asis', echo = FALSE}
-summary(tableby(~ Brief_RCOPE_postive + Brief_RCOPE_negative, data=dataset2))
+tbl_summary(dataset2, by = religion_scale_2_r_attend, include =c(Brief_RCOPE_postive,Brief_RCOPE_negative), missing="no", statistic = list(all_continuous() ~ "{mean} ({sd})"),digits = all_continuous() ~ 2, type = list(Brief_RCOPE_postive ~ "continuous",Brief_RCOPE_negative ~ "continuous")) %>% bold_labels() %>% add_p(pvalue_fun = ~style_pvalue(.x, digits = 3)) %>% bold_p(t = 0.05) %>%
+  add_overall() %>% modify_header(update = list(p.value ~ "**p**")) %>% as_flex_table() %>% width(j = c(1, 2, 3, 4), width = 1.5) %>% width(j = 5, width = 0.6)
 ```
 
 ## Mental Health
 
 ```{r mental, results='asis', echo = FALSE}
-summary(tableby(~ HADS_anxiety + HADS_anxiety_group_r + HADS_depression + HADS_depression_group_r, data=dataset2))
-```
-
-## Difference
-
-```{r difference, results='asis', echo = FALSE}
-summary(tableby(religion_scale_2_r_attend ~ religion_scale_1 + religion_scale_3_r_pray + religion_scale_4_r_study_r_almost_each_day + FACIT_meaning + FACIT_peace + FACIT_faith + IES_intrusion + IES_avoidance + IES_hyperarousal + Brief_RCOPE_postive + Brief_RCOPE_negative + HADS_anxiety + HADS_depression + sdi + age_r + gender + bachelor_above + occupation_status_r + high_income + married + self_own + private_housing + living_with_family, data=dataset2, control=mycontrols))
+tbl_summary(dataset2, by = religion_scale_2_r_attend, include =c(HADS_anxiety,HADS_anxiety_group_r,HADS_depression,HADS_depression_group_r), missing="no", statistic = list(all_continuous() ~ "{mean} ({sd})"),digits = all_continuous() ~ 2, type = list(HADS_anxiety ~ "continuous",HADS_depression ~ "continuous")) %>% bold_labels() %>% add_p(pvalue_fun = ~style_pvalue(.x, digits = 3)) %>% bold_p(t = 0.05) %>%
+  add_overall() %>% modify_header(update = list(p.value ~ "**p**")) %>% as_flex_table() %>% width(j = c(1, 2, 3, 4), width = 1.5) %>% width(j = 5, width = 0.6)
 ```
 
 ## Regression Result
 
-```{r Regression, results='asis', echo = FALSE}
-summary(modelsum(list(religion_scale_1,FACIT_meaning,FACIT_peace, FACIT_faith,
-                      Brief_RCOPE_postive, Brief_RCOPE_negative,
-                      HADS_anxiety, HADS_depression, 
-                      IES_intrusion, IES_avoidance, IES_hyperarousal) ~ religion_scale_2_r_attend, 
-  adjust= ~ religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day
-  + living_with_family
-  + household_size
-  + age_r
-  + gender
-  + edu
-  #+ bachelor_above
-  #+ married
-  + marital
-  + private_housing
-  #+ self_own
-  , data=dataset2), term.name = TRUE)
+### Self-perceived devotion
+
+```{r Regression_1, results='asis', echo = FALSE, message = FALSE}
+r1 <- tbl_regression(lm(religion_scale_1 ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r + gender + edu + marital + private_housing, data=dataset2), intercept=TRUE, estimate_fun= ~style_number(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared))  %>% modify_header(update = list(p.value ~ "**p**")) %>% as_flex_table() 
+
+r1
 ```
 
-## Regression1 Result
+### Spirituality
 
-```{r Regression_1, results='asis', echo = FALSE}
-fit <- lm(religion_scale_1 ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r
-                     + gender + edu + marital + private_housing
-                     , data=dataset2)
-tbl_regression(fit, intercept=TRUE, estimate_fun= ~style_pvalue(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared)) %>% as_flex_table()
+```{r Regression_2, results='asis', echo = FALSE, message = FALSE}
+s1 <- tbl_regression(lm(FACIT_meaning ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r + gender + edu + marital + private_housing, data=dataset2), intercept=TRUE, estimate_fun= ~style_number(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared)) %>% modify_header(update = list(p.value ~ "**p**")) 
+
+s2 <- tbl_regression(lm(FACIT_peace ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r + gender + edu + marital + private_housing, data=dataset2), intercept=TRUE, estimate_fun= ~style_number(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared)) %>% modify_header(update = list(p.value ~ "**p**")) 
+
+s3 <- tbl_regression(lm(FACIT_faith ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r + gender + edu + marital + private_housing, data=dataset2), intercept=TRUE, estimate_fun= ~style_number(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared)) %>% modify_header(update = list(p.value ~ "**p**")) 
+
+sm <- tbl_merge(
+  tbls = list(s1, s2, s3),
+  tab_spanner = c("**Meaning**", "**Peace**",  "**Faith**")
+)  %>% as_flex_table() %>% width(j = c(2, 5, 8), width = 0.35)%>% width(j = c(4, 7, 10), width = 0.5) %>% width(j = 1, width = 1.5) %>% width(j = c(3, 6, 9), width = 0.79)
+
+sm
+```
+
+### Religious coping
+
+```{r Regression_3, results='asis', echo = FALSE, message = FALSE}
+rc1 <- tbl_regression(lm(Brief_RCOPE_postive ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r + gender + edu + marital + private_housing, data=dataset2), intercept=TRUE, estimate_fun= ~style_number(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared)) %>% modify_header(update = list(p.value ~ "**p**")) 
+
+rc2 <- tbl_regression(lm(Brief_RCOPE_negative ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r + gender + edu + marital + private_housing, data=dataset2), intercept=TRUE, estimate_fun= ~style_number(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared)) %>% modify_header(update = list(p.value ~ "**p**")) 
+
+rcm <- tbl_merge(
+  tbls = list(rc1, rc2),
+  tab_spanner = c("**Positive**", "**Negative**")
+)  %>% as_flex_table() %>% width(j = c(2, 5), width = 0.35)%>% width(j = c(4, 7), width = 0.5) %>% width(j = 1, width = 1.5) %>% width(j = c(3, 6), width = 0.79)
+
+rcm
+```
+
+### Mental health
+
+```{r Regression_4, results='asis', echo = FALSE, message = FALSE}
+mh1 <- tbl_regression(lm(HADS_anxiety ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r + gender + edu + marital + private_housing, data=dataset2), intercept=TRUE, estimate_fun= ~style_number(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared)) %>% modify_header(update = list(p.value ~ "**p**")) 
+
+mh2 <- tbl_regression(lm(HADS_depression ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r + gender + edu + marital + private_housing, data=dataset2), intercept=TRUE, estimate_fun= ~style_number(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared)) %>% modify_header(update = list(p.value ~ "**p**")) 
+
+mhm <- tbl_merge(
+  tbls = list(mh1, mh2),
+  tab_spanner = c("**Anxiety**", "**Depression**")
+)  %>% as_flex_table() %>% width(j = c(2, 5), width = 0.35)%>% width(j = c(4, 7), width = 0.5) %>% width(j = 1, width = 1.5) %>% width(j = c(3, 6), width = 0.79)
+
+mhm
+```
+
+### Perceived stress
+
+```{r Regression_5, results='asis', echo = FALSE, message = FALSE}
+ps1 <- tbl_regression(lm(IES_intrusion ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r + gender + edu + marital + private_housing, data=dataset2), intercept=TRUE, estimate_fun= ~style_number(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared)) %>% modify_header(update = list(p.value ~ "**p**")) 
+
+ps2 <- tbl_regression(lm(IES_avoidance ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r + gender + edu + marital + private_housing, data=dataset2), intercept=TRUE, estimate_fun= ~style_number(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared)) %>% modify_header(update = list(p.value ~ "**p**")) 
+
+ps3 <- tbl_regression(lm(IES_hyperarousal ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r + gender + edu + marital + private_housing, data=dataset2), intercept=TRUE, estimate_fun= ~style_number(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared)) %>% modify_header(update = list(p.value ~ "**p**")) 
+
+psm <- tbl_merge(
+  tbls = list(ps1, ps2, ps3),
+  tab_spanner = c("**Intrusion**", "**Avoidance**","**Hyperarousal**")
+) %>% as_flex_table() %>% width(j = c(2, 5, 8), width = 0.35)%>% width(j = c(4, 7, 10), width = 0.5)  %>% width(j = 1, width = 1.5) %>% width(j = c(3, 6, 9), width = 0.79)
+psm
 ```
