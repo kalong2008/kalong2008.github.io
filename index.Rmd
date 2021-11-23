@@ -1,13 +1,16 @@
 ---
 title: "SDA sample result"
-author: "Name of Research Team"
-date: "11/17/2021"
+author:
+  - Author One^[Institution One]
+  - Author Two^[Institution Two]
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   html_document: default
   pdf_document: 
     latex_engine: xelatex
-documentclass: article
-classoption: a4paper
+#documentclass: report
+#classoption: a4paper
+papersize: a4
 ---
 
 
@@ -112,7 +115,7 @@ fisher.test.simulate.p.values <- function(data, variable, by, ...) {
   result
 }
 ```
-
+\newpage
 ## Demographic information
 
 
