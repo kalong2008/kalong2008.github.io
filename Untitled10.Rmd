@@ -1,0 +1,106 @@
+---
+title: "Untitled"
+CJKmainfont: DFKai-SB
+author: "Ka Long"
+date: "11/24/2021"
+output: 
+  pdf_document:
+    latex_engine: xelatex
+---
+
+# Appendix
+* FACIT-Sp-12
+  + Meaning
+    2.	我有活下去的理由
+    3.	我的生命一直很豐盛
+    5.	我覺得我的生命有目標
+    8.	我的生命缺乏意義和目標
+  
+  + Peace
+    1.	我感到平靜 
+    4.	我很難感受到內心的平靜
+    6.	我能夠從我的內心深處找到安適
+    7.	我感受到自己身心和諧
+  
+  + Faith
+    9.	我從我的信念或信仰中找到安適
+    10.	我從我的信念或信仰中找到力量
+    11.	我的疾病使我的信念或信仰更加堅定
+    12.	我知道不論我的疾病如何變化，一切都將安好
+
+IES-R
+Intrusion
+1.	任何有關那件事的事物也會引起我對那件事的感覺
+2.	我難於保持安睡
+3.	其他事情不停地令我想起那件事
+6.	我會無意中想起那件事
+9.	關於那件事的影像在我腦海中突然浮現出來
+14.	我覺得我的行動或者感覺好像回復到那件事發生時的行動和感覺一樣
+16.	我對那件事的強烈感覺一陣一陣地湧現出來
+20.	我夢到那件事
+
+Avoidance
+5.	每當我想起那件事或者有其他事物令我想起那件事時，我會盡力避免讓自己心煩意亂
+7.	我覺得那件事好像從未發生過或並非真實
+8.	我避開一些會令我回憶起那件事的事物
+11.	我嘗試不想起那件事
+12.	我察覺到我仍然對那件事有很多感受，但我沒有去處理它們
+13.	我對那件事的感覺是有點兒麻木
+17.	我嘗試忘記那件事
+22.	我嘗試不談論有關那件事的話題
+
+Hyperarousal
+4.	我覺得煩躁和忿怒
+10.	我神經過敏及容易被嚇得跳起來
+15.	我難於入睡
+18.	我難於集中精神
+19.	令我想起那件事的事物使我身體產生反應， 例如：流汗、呼吸困難、作嘔、或者強烈心跳
+21.	我覺得自己警覺性很高，處處提防
+
+
+Brief RCOPE
+Positive
+1.	我尋求更加親近上帝。
+2.	我尋求上帝的愛與看顧。
+3.	我尋求上帝幫助我化解我的怒氣
+4.	我試著跟上帝一起實行我的計畫
+5.	我試著了解上帝在這樣的處境下會如何堅固我
+6.	我求上帝赦免我的罪
+7.	我會藉著定睛在信仰上使我停止憂慮
+
+Negative
+8.	我懷疑上帝是否已經棄我於不顧
+9.	我覺得上帝懲罰我是因為我不夠愛主
+10.	我懷疑是不是我做了甚麼導致上帝懲罰我。
+11.	我懷疑上帝對我的愛
+12.	我懷疑我的教會是否已經棄我於不顧
+13.	我認定這一切困難是出於魔鬼
+14.	我質疑上帝的能力
+
+
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
