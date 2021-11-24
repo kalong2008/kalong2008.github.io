@@ -1,38 +1,35 @@
 ---
 title: "SDA sample result"
 author:
-  - name: Alice Anonymous
-    email: alice@example.com
-    affiliation: Some Institute of Technology
-    footnote: 1
-  - name: Bob Security
-    email: bob@example.com
-    affiliation: Another University
-  - name: Cat Memes
-    email: cat@example.com
-    affiliation: Another University
-    footnote: 2
-  - name: Derek Zoolander
-    email: derek@example.com
-    affiliation: Some Institute of Technology
-    footnote: 2
-address:
-  - code: Some Institute of Technology
-    address: Department, Street, City, State, Zip
-  - code: Another University
-    address: Department, Street, City, State, Zip
-footnote:
-  - code: 1
-    text: "Corresponding Author"
-  - code: 2
-    text: "Equal contribution"
+- name: Alice Anonymous
+  email: alice@example.com
+  affiliation: Some Institute of Technology
+  footnote: 1
+- name: Bob Security
+  email: bob@example.com
+  affiliation: Another University
+- name: Cat Memes
+  email: cat@example.com
+  affiliation: Another University
+  footnote: 2
+- name: Derek Zoolander
+  email: derek@example.com
+  affiliation: Some Institute of Technology
+  footnote: 2
 date: "11/17/2021"
 output:
-  pdf_document: 
-    latex_engine: xelatex
-  html_document: default
-documentclass: article
-classoption: a4paper
+  bookdown::pdf_document2:
+    keep_tex: yes
+address:
+- code: Some Institute of Technology
+  address: Department, Street, City, State, Zip
+- code: Another University
+  address: Department, Street, City, State, Zip
+footnote:
+- code: 1
+  text: Corresponding Author
+- code: 2
+  text: Equal contribution
 ---
 
 
@@ -53,6 +50,7 @@ require(dlookr)
 require(Hmisc)
 require(gtsummary)
 require(flextable)
+require(report)
 ```
 
 ```{r, load-data, , echo = FALSE, message = FALSE, warning = FALSE}
@@ -120,7 +118,10 @@ set_flextable_defaults(fonts_ignore=TRUE)
 
 ### Self-perceived devotion
 
-```{r Regression_1, results='asis', echo = FALSE, message = FALSE}
-tbl_summary(dataset2, by = religion_scale_2_r_attend, include =c(age_r,gender,edu_r,occupation_status,salary), missing="no", statistic = list(all_continuous() ~ "{mean} ({sd})"),digits = all_continuous() ~ 2) %>% bold_labels() %>% add_p(pvalue_fun = ~style_pvalue(.x, digits = 3)) %>% bold_p(t = 0.05) %>%
-  add_overall() %>% as_flex_table() %>% width(j = c(1, 2, 3, 4), width = 1) %>% width(j = 5, width = 0.6)
+```{r Regression_1, results='asis', echo = FALSE, message = FALSE, tab.id='my_id'}
+r1 <- tbl_regression(lm(religion_scale_1 ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r + gender + edu + marital + private_housing, data=dataset2), intercept=TRUE, estimate_fun= ~style_number(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared))  %>% modify_header(update = list(p.value ~ "**p**")) %>% as_flex_table()
+r1
+
+#tb <- fit_to_width(tb, max_width = , inc = 1L, max_iter = 20, unit = "in")
+#tb
 ```

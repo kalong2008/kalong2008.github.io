@@ -1,26 +1,55 @@
 ---
-title: "SDA sample result"
+title: "Secondary analysis: SDA sample"
+CJKmainfont: DFKai-SB
 author:
-  - Author One^[Institution One]
-  - Author Two^[Institution Two]
+  - Corjena Cheung:
+      institute: hkac
+      correspondence: true
+  - name: Becky Ng
+    institute: hkah
+  - name: Miranda Wong
+    institute: hkmc
+  - name: Chi Fong Shu
+    institute: cum
+  - name: Jiaqing Shi
+    institute: hkah
+  - name: Ka Long Chan
+    institute: poly
+  - name: Chuen Chuen Lau
+    institute: hkac
+institute:
+  - hkac: Hong Kong Adventist College
+  - hkah: Hong Kong Adventist Hospital - Tsuen Wan
+  - hkmc: Hong Kong Macau Conference of Seventh-day Adventists
+  - cum: Chinese Union Mission of Seventh-day Adventist Church
+  - poly: The Hong Kong Polytechnic University
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
-  html_document: default
   pdf_document: 
+    number_sections: true
     latex_engine: xelatex
+    pandoc_args:
+      - '--lua-filter=scholarly-metadata.lua'
+      - '--lua-filter=author-info-blocks.lua'
+  html_document: 
+    number_sections: true
+    toc: true
+    toc_float:
+      collapse: true
+      smooth_scroll: true
+    pandoc_args:
+      - '--lua-filter=scholarly-metadata.lua'
+      - '--lua-filter=author-info-blocks.lua'
 #documentclass: report
 #classoption: a4paper
 papersize: a4
 ---
 
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Introduction
-
-A cross sectional questionnaire-based internet study was conducted from August to October 2020. We recruited convenience samples of community dwelling adults aged 18 years or above living in Hong Kong who were able to read and write either Chinese or English. No specific religious belief or denomination was required to participate in the study.  Using a non-randomized referral sampling (snowball sampling) method through online invitations as well as electronic communication channels including posts on social media platforms, direct digital messaging, and personal email lists.  An online survey using Google Form that required 10-15 minutes to complete was distributed to all potential participants. A special provision was allowed for assistance for participants aged 60 years or above if they were not comfortable with virtual platforms. As an incentive to participate in the study, participants were invited to enter names and contact information into a lucky draw. Ten participants would be selected to win a range of HK$ 200-500 (US$25-65) supermarket coupons. A total of 418 responses were received for the study. Excluding those with duplicated submission, there were 360 valid responses. On those valid responses, only 112 participants self-reported that they were Seventh-day Adventist (`r format(round(112/360*100, 1), nsmall = 1)`%). Therefore, the current report will only include SDA sample.
+# Introduction
 
 ```{r load-library, echo = FALSE, message = FALSE}
 require(knitr)
@@ -114,64 +143,154 @@ fisher.test.simulate.p.values <- function(data, variable, by, ...) {
   result$test <- test_results$method
   result
 }
+
+
+
 ```
+
+```{r introduction, include=FALSE}
+intro <- tbl_summary(dataset2, include =c(HADS_anxiety_group_r,HADS_depression_group_r, religion_scale_2_r_attend), missing="no", statistic = list(all_continuous() ~ "{mean} ({sd})"),digits = all_continuous() ~ 1)
+```
+
+
+```{r rel, include=FALSE}
+rel <- tbl_summary(dataset2, by = religion_scale_2_r_attend, include =c(religion_scale_1,religion_scale_2_r_attend,religion_scale_3_r_pray,religion_scale_4_r_study_r_each_day), missing="no", statistic = list(all_continuous() ~ "{mean} ({sd})"),digits = all_continuous() ~ 1)
+```
+
+A cross-sectional online survey was conducted to evaluate spirituality, religious behavior and belief, religious coping, mental health, and perceived stress of healthy adults (aged 18 years or above) in Hong Kong from August to October 2020. Respondents were recruited by convenience and snowball sampling, and asked to complete a structured questionnaire, including Functional Assessment of Chronic Illness Therapy-Spiritual Well-Being (FACIT-Sp-12), Impact of Event Scale – Revised (IES - R), Brief Religious Coping Activity Scales (Brief RCOPE), Hospital Anxiety and Depression Scale (HADS), the self-developed instruments about religious behavior and belief. As an incentive to participate in the study, participants were invited to enter names and contact information into a lucky draw. Ten participants would be selected to win a range of HK\$ 200-500 (US\$25-65) supermarket coupons. 
+
+A total of 418 responses were received for the study. Excluding those with duplicated submission, there were 360 valid responses. On those valid responses, only 112 participants self-reported that they were Seventh-day Adventist (`r format(round(112/360*100, 1), nsmall = 1)`%). Of the 112 respondents included in this secondary analysis, `r inline_text(intro, variable = HADS_anxiety_group_r, level = "Borderline abnormal", pattern = "{p}%")` and `r inline_text(intro, variable = HADS_depression_group_r, level = "Borderline abnormal", pattern = "{p}%")` were borderline abnormal for anxiety and depression respectively, while `r inline_text(intro, variable = HADS_anxiety_group_r, level = "Abnormal", pattern = "{p}%")` and `r inline_text(intro, variable = HADS_depression_group_r, level = "Abnormal", pattern = "{p}%")` were abnormal for anxiety and depression respectively. Multiple linear regression analysis found that attending religious meeting regularly was associated increased faith and positive religious coping, and reduced depression and intrusion perceived stress. While people with regular personal praying life also had increased peace, faith, and positive religious coping. However, there were no associations between studying religious books/materials regularly and spirituality, religious coping, mental health, and perceived stress.
+
+***
+
+於 2020 年 8 月至 10 月進行了一項橫斷面在線調查，以評估香港健康成年人 (18歲或以上) 的靈性、宗教行為和信仰、宗教應對、心理健康和感知壓力。和滾雪球抽樣，並要求完成結構化問卷，包括慢性疾病治療功能評估 - 精神健康 (FACIT-Sp-12)、事件影響量表 - 修訂版 (IES - R)、簡要宗教應對活動量表 (Brief RCOPE)，醫院焦慮和抑鬱量表 (HADS)，自主開發的關於宗教行為和信仰的工具。作為參與研究的獎勵，參與者被邀請在抽獎中輸入姓名和聯繫信息。將選出十名參與者，贏取價值200-500港元 (25-65 美元) 的超市優惠券。
+
+該研究共收到 418 份回复。剔除重複提交者，有效回复360條。在這些有效回復中，只有 112 名參與者自我報告稱他們是基督复臨安息日會信徒(`r format(round(112/360*100, 1), nsmall = 1)`%)。在此二級分析中包含的 112 名受訪者中，`r inline_text(intro, variable = HADS_anxiety_group_r, level = "Borderline abnormal", pattern = "{p}%")`和`r inline_text(intro, variable = HADS_depression_group_r, level = "Borderline abnormal", pattern = "{p}%")`是邊緣異常分別為焦慮和抑鬱，而 `r inline_text(intro, variable = HADS_anxiety_group_r, level = "Abnormal", pattern = "{p}%")` 和 `r inline_text(intro, variable = HADS_depression_group_r, level = "Abnormal", pattern = "{p}%")` 分別為焦慮和抑鬱異常。多元線性回歸分析發現，定期參加宗教會議與增加信仰和積極的宗教應對有關，並減少抑鬱和侵入感知壓力。雖然有規律的個人祈禱生活的人也增加了和平、信仰和積極的宗教應對。然而，定期學習宗教書籍/材料與靈性、宗教應對、心理健康和感知壓力之間沒有關聯。
+
 \newpage
+
+# Profile of HKMC SDA
+
+* Characteristic of church member attending religious meeting regularly
+  1. higher education level
+  2. higher peace
+  3. higher faith
+  4. more personal pray
+  5. more studying religious books/materials
+  6. lower intrusion perceived stress
+  7. lower hyperarousal perceived stress
+  8. more positive religious coping
+  9. lower anxiety
+  10. lower depression
+
+* On those church member attending religious meeting every week `r inline_text(intro, variable = religion_scale_2_r_attend, level = "1/week", pattern = "({p}%)")`, only `r inline_text(rel, variable = religion_scale_3_r_pray, level = ">= 1/day", column = "1/week", pattern = "{p}%")` had personal praying life everyday and `r inline_text(rel, variable = religion_scale_4_r_study_r_each_day, level = ">= 1/day", column = "1/week", pattern = "{p}%")` studied religious books/materials everyday. Beside, on those church member attending religious meeting more than 1 time per week `r inline_text(intro, variable = religion_scale_2_r_attend, level = "> 1/week", pattern = "({p}%)")`, only `r inline_text(rel, variable = religion_scale_3_r_pray, level = ">= 1/day", column = "> 1/week", pattern = "{p}%")` had personal praying life everyday and `r inline_text(rel, variable = religion_scale_4_r_study_r_each_day, level = ">= 1/day", column = "> 1/week", pattern = "{p}%")` studied religious books/materials everyday. Therefore, even though people attend religious meeting regularly, they may not have personal praying life and study religious books/materials everyday.
+
+***
+
+* 恆常出席宗教聚會的教友的特徵
+  1. 教育水平較高
+  2. 內心更平安
+  3. 內心更有信心
+  4. 更個人的祈禱
+  5. 較多閱讀宗教書籍
+  6. 入侵感知壓力較低
+  7. 過度喚醒感知壓力較低
+  8. 較多運用正面的宗教應對方法來處理壓力
+  9. 焦慮較低
+  10. 抑鬱較低
+
+* 即使教友恆常出席宗教聚會，他們每天也可能沒有個人的祈禱生活和閱讀宗教書籍。
+
 ## Demographic information
 
-
-```{r demographic, results='asis', echo = FALSE}
+```{r demographic, results='asis', echo = FALSE, tab.cap="Demographic characteristic of the respondents and comparison among religious meeting attendance"}
 tbl_summary(dataset2, by = religion_scale_2_r_attend, include =c(age_r,gender,edu_r,occupation_status,salary), missing="no", statistic = list(all_continuous() ~ "{mean} ({sd})"),digits = all_continuous() ~ 1) %>% bold_labels() %>% add_p(pvalue_fun = ~style_pvalue(.x, digits = 3), test = list(all_continuous() ~ "aov", "salary" ~ "fisher.test.simulate.p.values")) %>% bold_p(t = 0.05) %>%
-  add_overall() %>% modify_header(update = list(p.value ~ "**p**")) %>% as_flex_table() %>% width(j = 1, width = 1.5) %>% width(j = 2, width = 0.65) %>% width(j = 3, width = 0.7) %>% width(j = 4, width = 0.65) %>% width(j = 5, width = 0.7) %>% width(j = 6, width = 0.4)
+  add_overall() %>% modify_header(update = list(p.value ~ "**p**")) %>% as_flex_table()  %>% width(j = 1, width = 1.5) %>% width(j = 2, width = 0.65) %>% width(j = 3, width = 0.7) %>% width(j = 4, width = 0.65) %>% width(j = 5, width = 0.7) %>% width(j = 6, width = 0.4)
 ```
 
 ## Spirituality
 
-```{r spirituality, results='asis', echo = FALSE}
+```{r spirituality, results='asis', echo = FALSE, tab.cap="Spirituality characteristic of the respondents and comparison among religious meeting attendance"}
 tbl_summary(dataset2, by = religion_scale_2_r_attend, include =c(FACIT_meaning,FACIT_peace,FACIT_faith), missing="no", statistic = list(all_continuous() ~ "{mean} ({sd})"),digits = all_continuous() ~ 1, type = list(FACIT_meaning ~ "continuous")) %>% bold_labels() %>% add_p(pvalue_fun = ~style_pvalue(.x, digits = 3), test = all_continuous() ~ "aov") %>% bold_p(t = 0.05) %>%
-  add_overall() %>% modify_header(update = list(p.value ~ "**p**")) %>% as_flex_table() %>% width(j = 1, width = 1.5) %>% width(j = 2, width = 0.65) %>% width(j = 3, width = 0.7) %>% width(j = 4, width = 0.65) %>% width(j = 5, width = 0.7) %>% width(j = 6, width = 0.4)
+  add_overall() %>% modify_header(update = list(p.value ~ "**p**")) %>% as_flex_table()  %>% width(j = 1, width = 1.5) %>% width(j = 2, width = 0.65) %>% width(j = 3, width = 0.7) %>% width(j = 4, width = 0.65) %>% width(j = 5, width = 0.7) %>% width(j = 6, width = 0.4)
 ```
 
 ## Religion behaviour and belief
 
-```{r religion, results='asis', echo = FALSE}
+```{r religion, results='asis', echo = FALSE, tab.cap="Religious behaviour and belief characteristic of the respondents and comparison among religious meeting attendance"}
 tbl_summary(dataset2, by = religion_scale_2_r_attend, include =c(religion_scale_1,religion_scale_2_r_attend,religion_scale_3_r_pray,religion_scale_4_r_study_r_each_day), missing="no", statistic = list(all_continuous() ~ "{mean} ({sd})"),digits = all_continuous() ~ 1, type = list(religion_scale_1 ~ "continuous")) %>% bold_labels() %>% add_p(pvalue_fun = ~style_pvalue(.x, digits = 3), test = all_continuous() ~ "aov") %>% bold_p(t = 0.05) %>%
-  add_overall() %>% modify_header(update = list(p.value ~ "**p**")) %>% as_flex_table() %>% width(j = 1, width = 1.5) %>% width(j = 2, width = 0.65) %>% width(j = 3, width = 0.7) %>% width(j = 4, width = 0.65) %>% width(j = 5, width = 0.7) %>% width(j = 6, width = 0.4)
+  add_overall() %>% modify_header(update = list(p.value ~ "**p**")) %>% as_flex_table()  %>% width(j = 1, width = 1.5) %>% width(j = 2, width = 0.65) %>% width(j = 3, width = 0.7) %>% width(j = 4, width = 0.65) %>% width(j = 5, width = 0.7) %>% width(j = 6, width = 0.4)
 ```
 
 ## Perceived Stress
 
-```{r stress, results='asis', echo = FALSE}
+```{r stress, results='asis', echo = FALSE, tab.cap="Perceived stress characteristic of the respondents and comparison among religious meeting attendance"}
 tbl_summary(dataset2, by = religion_scale_2_r_attend, include =c(IES_intrusion,IES_avoidance,IES_hyperarousal), missing="no", statistic = list(all_continuous() ~ "{mean} ({sd})"),digits = all_continuous() ~ 1, type = list(IES_intrusion ~ "continuous",IES_avoidance ~ "continuous",IES_hyperarousal ~ "continuous")) %>% bold_labels() %>% add_p(pvalue_fun = ~style_pvalue(.x, digits = 3), test = all_continuous() ~ "aov") %>% bold_p(t = 0.05) %>%
-  add_overall() %>% modify_header(update = list(p.value ~ "**p**")) %>% as_flex_table() %>% width(j = 1, width = 1.5) %>% width(j = 2, width = 0.65) %>% width(j = 3, width = 0.7) %>% width(j = 4, width = 0.65) %>% width(j = 5, width = 0.7) %>% width(j = 6, width = 0.4)
+  add_overall() %>% modify_header(update = list(p.value ~ "**p**")) %>% as_flex_table()  %>% width(j = 1, width = 1.5) %>% width(j = 2, width = 0.65) %>% width(j = 3, width = 0.7) %>% width(j = 4, width = 0.65) %>% width(j = 5, width = 0.7) %>% width(j = 6, width = 0.4)
 ```
 
-## Coping
+## Religious coping
 
-```{r coping, results='asis', echo = FALSE}
+```{r coping, results='asis', echo = FALSE, tab.cap="Religious coping characteristic of the respondents and comparison among religious meeting attendance"}
 tbl_summary(dataset2, by = religion_scale_2_r_attend, include =c(Brief_RCOPE_postive,Brief_RCOPE_negative), missing="no", statistic = list(all_continuous() ~ "{mean} ({sd})"),digits = all_continuous() ~ 1, type = list(Brief_RCOPE_postive ~ "continuous",Brief_RCOPE_negative ~ "continuous")) %>% bold_labels() %>% add_p(pvalue_fun = ~style_pvalue(.x, digits = 3), test = all_continuous() ~ "aov") %>% bold_p(t = 0.05) %>%
-  add_overall() %>% modify_header(update = list(p.value ~ "**p**")) %>% as_flex_table() %>% width(j = 1, width = 1.5) %>% width(j = 2, width = 0.65) %>% width(j = 3, width = 0.7) %>% width(j = 4, width = 0.65) %>% width(j = 5, width = 0.7) %>% width(j = 6, width = 0.4)
+  add_overall() %>% modify_header(update = list(p.value ~ "**p**")) %>% as_flex_table()  %>% width(j = 1, width = 1.5) %>% width(j = 2, width = 0.65) %>% width(j = 3, width = 0.7) %>% width(j = 4, width = 0.65) %>% width(j = 5, width = 0.7) %>% width(j = 6, width = 0.4)
 ```
 
 ## Mental Health
 
-```{r mental, results='asis', echo = FALSE}
+```{r mental, results='asis', echo = FALSE, tab.cap="Mental health characteristic of the respondents and comparison among religious meeting attendance"}
 tbl_summary(dataset2, by = religion_scale_2_r_attend, include =c(HADS_anxiety,HADS_anxiety_group_r,HADS_depression,HADS_depression_group_r), missing="no", statistic = list(all_continuous() ~ "{mean} ({sd})"),digits = all_continuous() ~ 1, type = list(HADS_anxiety ~ "continuous",HADS_depression ~ "continuous")) %>% bold_labels() %>% add_p(pvalue_fun = ~style_pvalue(.x, digits = 3), test = all_continuous() ~ "aov") %>% bold_p(t = 0.05) %>%
-  add_overall() %>% modify_header(update = list(p.value ~ "**p**")) %>% as_flex_table() %>% width(j = 1, width = 1.5) %>% width(j = 2, width = 0.65) %>% width(j = 3, width = 0.7) %>% width(j = 4, width = 0.65) %>% width(j = 5, width = 0.7) %>% width(j = 6, width = 0.4)
+  add_overall() %>% modify_header(update = list(p.value ~ "**p**")) %>% as_flex_table()  %>% width(j = 1, width = 1.5) %>% width(j = 2, width = 0.65) %>% width(j = 3, width = 0.7) %>% width(j = 4, width = 0.65) %>% width(j = 5, width = 0.7) %>% width(j = 6, width = 0.4)
 ```
 
-## Regression Result
+\newpage
+# Regression Result
 
-### Self-perceived devotion
+* Attending religious meeting associate with
+  1. self-perceived devotion
+  2. faith
+  3. positive religious coping
+  4. depression
+  5. intrusion perceived stress
 
-```{r Regression_1, results='asis', echo = FALSE, message = FALSE}
-r1 <- tbl_regression(lm(religion_scale_1 ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r + gender + edu + marital + private_housing, data=dataset2), intercept=TRUE, estimate_fun= ~style_number(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared))  %>% modify_header(update = list(p.value ~ "**p**")) %>% as_flex_table()
+* Personal praying life associate with
+  1. self-perceived devotion
+  2. peace
+  3. faith
+  4. positive religious coping
+
+* Studying religious books/material
+  + no relationship with any outcomes
+
+***
+
+* 出席宗教聚會與以下因素相關
+   1. 自我認知的虔誠
+   2. 信心
+   3. 正面的宗教應對方法
+   4. 抑鬱
+   5.入侵感知壓力
+
+* 個人祈禱生活與以下因素相關
+   1. 自我認知的虔誠
+   2. 平安
+   3. 信心
+   4. 正面的宗教應對方法
+
+* 學習宗教書籍/材料
+   + 與任何結果無關
+
+## Self-perceived devotion
+
+```{r Regression_1, results='asis', echo = FALSE, message = FALSE, tab.cap="Linear regression to explore factors associated with self-perceived devotion"}
+r1 <- tbl_regression(lm(religion_scale_1 ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r + gender + edu + marital + private_housing, data=dataset2), intercept=TRUE, estimate_fun= ~style_number(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared))  %>% modify_header(update = list(p.value ~ "**p**")) %>% as_flex_table() 
 
 r1
 ```
 
-### Spirituality
+## Spirituality
 
-```{r Regression_2, results='asis', echo = FALSE, message = FALSE}
+```{r Regression_2, results='asis', echo = FALSE, message = FALSE, tab.cap="Linear regression to explore factors associated with spirituality"}
 s1 <- tbl_regression(lm(FACIT_meaning ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r + gender + edu + marital + private_housing, data=dataset2), intercept=TRUE, estimate_fun= ~style_number(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared)) %>% modify_header(update = list(p.value ~ "**p**")) 
 
 s2 <- tbl_regression(lm(FACIT_peace ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r + gender + edu + marital + private_housing, data=dataset2), intercept=TRUE, estimate_fun= ~style_number(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared)) %>% modify_header(update = list(p.value ~ "**p**")) 
@@ -181,14 +300,14 @@ s3 <- tbl_regression(lm(FACIT_faith ~ religion_scale_2_r_attend + religion_scale
 sm <- tbl_merge(
   tbls = list(s1, s2, s3),
   tab_spanner = c("**Meaning**", "**Peace**",  "**Faith**")
-)  %>% as_flex_table() %>% width(j = c(2, 5, 8), width = 0.35)%>% width(j = c(4, 7, 10), width = 0.5) %>% width(j = 1, width = 1.5) %>% width(j = c(3, 6, 9), width = 0.79)
+)  %>% as_flex_table()  %>% width(j = c(2, 5, 8), width = 0.35)%>% width(j = c(4, 7, 10), width = 0.5) %>% width(j = 1, width = 1.5) %>% width(j = c(3, 6, 9), width = 0.79)
 
 sm
 ```
 
-### Religious coping
+## Religious coping
 
-```{r Regression_3, results='asis', echo = FALSE, message = FALSE}
+```{r Regression_3, results='asis', echo = FALSE, message = FALSE, tab.cap="Linear regression to explore factors associated with religious coping"}
 rc1 <- tbl_regression(lm(Brief_RCOPE_postive ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r + gender + edu + marital + private_housing, data=dataset2), intercept=TRUE, estimate_fun= ~style_number(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared)) %>% modify_header(update = list(p.value ~ "**p**")) 
 
 rc2 <- tbl_regression(lm(Brief_RCOPE_negative ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r + gender + edu + marital + private_housing, data=dataset2), intercept=TRUE, estimate_fun= ~style_number(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared)) %>% modify_header(update = list(p.value ~ "**p**")) 
@@ -196,14 +315,14 @@ rc2 <- tbl_regression(lm(Brief_RCOPE_negative ~ religion_scale_2_r_attend + reli
 rcm <- tbl_merge(
   tbls = list(rc1, rc2),
   tab_spanner = c("**Positive**", "**Negative**")
-)  %>% as_flex_table() %>% width(j = c(2, 5), width = 0.35)%>% width(j = c(4, 7), width = 0.5) %>% width(j = 1, width = 1.5) %>% width(j = c(3, 6), width = 0.79)
+)  %>% as_flex_table()  %>% width(j = c(2, 5), width = 0.35)%>% width(j = c(4, 7), width = 0.5) %>% width(j = 1, width = 1.5) %>% width(j = c(3, 6), width = 0.79)
 
 rcm
 ```
 
-### Mental health
+## Mental health
 
-```{r Regression_4, results='asis', echo = FALSE, message = FALSE}
+```{r Regression_4, results='asis', echo = FALSE, message = FALSE, tab.cap="Linear regression to explore factors associated with mental health"}
 mh1 <- tbl_regression(lm(HADS_anxiety ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r + gender + edu + marital + private_housing, data=dataset2), intercept=TRUE, estimate_fun= ~style_number(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared)) %>% modify_header(update = list(p.value ~ "**p**")) 
 
 mh2 <- tbl_regression(lm(HADS_depression ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r + gender + edu + marital + private_housing, data=dataset2), intercept=TRUE, estimate_fun= ~style_number(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared)) %>% modify_header(update = list(p.value ~ "**p**")) 
@@ -211,14 +330,14 @@ mh2 <- tbl_regression(lm(HADS_depression ~ religion_scale_2_r_attend + religion_
 mhm <- tbl_merge(
   tbls = list(mh1, mh2),
   tab_spanner = c("**Anxiety**", "**Depression**")
-)  %>% as_flex_table() %>% width(j = c(2, 5), width = 0.35)%>% width(j = c(4, 7), width = 0.5) %>% width(j = 1, width = 1.5) %>% width(j = c(3, 6), width = 0.79)
+)  %>% as_flex_table()  %>% width(j = c(2, 5), width = 0.35)%>% width(j = c(4, 7), width = 0.5) %>% width(j = 1, width = 1.5) %>% width(j = c(3, 6), width = 0.79)
 
 mhm
 ```
 
-### Perceived stress
+## Perceived stress
 
-```{r Regression_5, results='asis', echo = FALSE, message = FALSE}
+```{r Regression_5, results='asis', echo = FALSE, message = FALSE, tab.cap="Linear regression to explore factors associated with perceived stress"}
 ps1 <- tbl_regression(lm(IES_intrusion ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r + gender + edu + marital + private_housing, data=dataset2), intercept=TRUE, estimate_fun= ~style_number(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared)) %>% modify_header(update = list(p.value ~ "**p**")) 
 
 ps2 <- tbl_regression(lm(IES_avoidance ~ religion_scale_2_r_attend + religion_scale_3_r_pray + religion_scale_4_r_study_r_each_day + living_with_family + household_size + age_r + gender + edu + marital + private_housing, data=dataset2), intercept=TRUE, estimate_fun= ~style_number(.x, digits = 2), pvalue_fun = ~style_pvalue(.x, digits = 3), include= c("religion_scale_2_r_attend", "religion_scale_3_r_pray", "religion_scale_4_r_study_r_each_day")) %>% bold_p(t = 0.05) %>% bold_labels() %>% add_glance_table(include = c(r.squared)) %>% modify_header(update = list(p.value ~ "**p**")) 
@@ -228,6 +347,17 @@ ps3 <- tbl_regression(lm(IES_hyperarousal ~ religion_scale_2_r_attend + religion
 psm <- tbl_merge(
   tbls = list(ps1, ps2, ps3),
   tab_spanner = c("**Intrusion**", "**Avoidance**","**Hyperarousal**")
-) %>% as_flex_table() %>% width(j = c(2, 5, 8), width = 0.35)%>% width(j = c(4, 7, 10), width = 0.5)  %>% width(j = 1, width = 1.5) %>% width(j = c(3, 6, 9), width = 0.79)
+) %>% as_flex_table()  %>% width(j = c(2, 5, 8), width = 0.35)%>% width(j = c(4, 7, 10), width = 0.5)  %>% width(j = 1, width = 1.5) %>% width(j = c(3, 6, 9), width = 0.79)
 psm
 ```
+
+# Conclusion
+
+XXX of the respondents had at least attended religious meeting every week and xxx had at least prayed everyday. However, relationship of attend and pray
+
+Beside, `r inline_text(intro, variable = HADS_anxiety_group_r, level = "Abnormal", pattern = "{p}%")` and `r inline_text(intro, variable = HADS_depression_group_r, level = "Abnormal", pattern = "{p}%")` were abnormal for anxiety and depression respectively. Our findings suggested that religious behavior substantially affected individuals’ spirituality, perceived, religious coping, and mental health. Furthermore, people who did not experience the SARS outbreak, people who were more worried about being infected by COVID-19, people who were more bothered by having not enough surgical masks and people who were more bothered by not being able to work from home had a poorer mental health status. One key policy implication of the present study is that church (pastor) should emphasize the importance of praying to enhance their . 
+
+question of studying
+
+# Acknowledgment
+We gratefully acknowledge the efforts of our survey respondents who took valuable time away from their day jobs to participate in this work. Also, we are particularly grateful to our research sponsors, Chinese Union Mission of Seventh-day Adventist Church, Hong Kong Adventist College, Hong Kong Adventist Hospital - Tsuen Wan, and Hong Kong Macau Conference of Seventh-day Adventists (in alphabetical order), without whom this study would not have been possible.

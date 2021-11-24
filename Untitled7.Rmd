@@ -1,0 +1,48 @@
+---
+title: "My title"
+author:
+  - Mario Modesto-Mata:
+      email: paleomariomm@gmail.com
+      institute: [astro, med]
+      correspondence: true
+  - name: Christopher
+    institute: astro
+  - name: Seaghán Mhartain
+    institute: med
+  - name: Rita Yuri Ynoue
+    institute: astro
+institute:
+  - astro: Instituto de Astronomía, Geofísica e Ciências Atmosféricas, Universidade de São Paulo
+  - med: Faculdade de Medicina, Universidade de São Paulo
+date: "1 October 2018"
+output: 
+  pdf_document: 
+    number_sections: yes
+    #toc: yes
+    #toc_depth: 4
+    pandoc_args:
+      - '--lua-filter=scholarly-metadata.lua'
+      - '--lua-filter=author-info-blocks.lua'
+  word_document:
+    toc: yes
+    pandoc_args:
+      - '--lua-filter=scholarly-metadata.lua'
+      - '--lua-filter=author-info-blocks.lua'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(tab.cap.style = "Table Caption",
+  tab.cap.pre = "Table11",
+  tab.cap.sep = "000")
+library(flextable)
+library(tidyverse)
+```
+
+## R Markdown
+
+
+```{r test, echo = F, tab.cap="12345"}
+flextable(head(cars, n = 10)) %>% 
+  bold(part = "header") %>%
+  autofit()
+```
