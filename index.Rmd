@@ -1,5 +1,5 @@
 ---
-title: "Impact of religious behavior: Secondary analysis among SDA sample"
+title: "Impact of religious behavior: Secondary analysis among SDA"
 CJKmainfont: DFKai-SB
 author:
   - Corjena Cheung:
@@ -43,6 +43,8 @@ output:
 #documentclass: report
 #classoption: a4paper
 papersize: a4
+bibliography: scholar.bib
+csl: vancouver-superscript-only-year.csl
 ---
 
 ```{r setup, include=FALSE}
@@ -157,16 +159,15 @@ intro <- tbl_summary(dataset2, include =c(HADS_anxiety_group_r,HADS_depression_g
 rel <- tbl_summary(dataset2, by = religion_scale_2_r_attend, include =c(religion_scale_1,religion_scale_2_r_attend,religion_scale_3_r_pray,religion_scale_4_r_study_r_each_day), missing="no", statistic = list(all_continuous() ~ "{mean} ({sd})"),digits = all_continuous() ~ 1)
 ```
 
-A cross-sectional online survey was conducted to evaluate spirituality, religious behavior and belief, religious coping, mental health, and perceived stress of healthy adults (aged 18 years or above) in Hong Kong from August to October 2020. Respondents were recruited by convenience and snowball sampling and asked to complete a structured questionnaire, including Functional Assessment of Chronic Illness Therapy-Spiritual Well-Being (FACIT-Sp-12), Impact of Event Scale – Revised (IES - R), Brief Religious Coping Activity Scales (Brief RCOPE), Hospital Anxiety and Depression Scale (HADS), the self-developed instruments about religious behavior and belief. As an incentive to participate in the study, participants were invited to enter names and contact information into a lucky draw. Ten participants would be selected to win a range of HK\$ 200-500 (US\$25-65) supermarket coupons. 
+A cross-sectional online survey was conducted to evaluate spirituality, religious behavior and belief, religious coping, mental health, and perceived stress of healthy adults (aged 18 years or above) in Hong Kong from August to October 2020. Respondents were recruited by convenience and snowball sampling and asked to complete a structured questionnaire, including Functional Assessment of Chronic Illness Therapy-Spiritual Well-Being (FACIT-Sp-12), Impact of Event Scale-Revised (IES-R), Brief Religious Coping Activity Scales (Brief RCOPE), Hospital Anxiety and Depression Scale (HADS), the self-developed instruments about religious behavior and belief. As an incentive to participate in the study, participants were invited to enter names and contact information into a lucky draw. Ten participants would be selected to win a range of HK\$ 200-500 (US\$25-65) supermarket coupons. 
 
-A total of 418 responses were received for the study. Excluding those with duplicated submissions, there were 360 valid responses. On those valid responses, only 112 participants self-reported that they were Seventh-day Adventist (`r format(round(112/360*100, 1), nsmall = 1)`%). Of the 112 respondents included in this secondary analysis, `r inline_text(intro, variable = HADS_anxiety_group_r, level = "Borderline abnormal", pattern = "{p}%")` and `r inline_text(intro, variable = HADS_depression_group_r, level = "Borderline abnormal", pattern = "{p}%")` were borderline abnormal for anxiety and depression respectively, while `r inline_text(intro, variable = HADS_anxiety_group_r, level = "Abnormal", pattern = "{p}%")` and `r inline_text(intro, variable = HADS_depression_group_r, level = "Abnormal", pattern = "{p}%")` were abnormal for anxiety and depression respectively. Multiple linear regression analysis found that attending religious meetings regularly was associated with increased faith and positive religious coping, and reduced depression and intrusion perceived stress. While people with regular personal praying life also had increased peace, faith, and positive religious coping. However, there were no associations between studying religious books/materials regularly and spirituality, religious coping, mental health, and perceived stress.
-
+A total of 418 responses were received for the study. Excluding those with duplicated submissions, there were 360 valid responses. On those valid responses, only 112 participants were Seventh-day Adventist (`r format(round(112/360*100, 1), nsmall = 1)`%). Of the 112 respondents included in this secondary analysis, `r inline_text(intro, variable = HADS_anxiety_group_r, level = "Borderline abnormal", pattern = "{p}%")` and `r inline_text(intro, variable = HADS_depression_group_r, level = "Borderline abnormal", pattern = "{p}%")` were borderline abnormal for anxiety and depression respectively, while `r inline_text(intro, variable = HADS_anxiety_group_r, level = "Abnormal", pattern = "{p}%")` and `r inline_text(intro, variable = HADS_depression_group_r, level = "Abnormal", pattern = "{p}%")` were abnormal for anxiety and depression respectively. When comparing to Hong Kong population, our sample had lower percentage of anxiety and depression [@choi2020depression]. Multiple linear regression analysis found that attending religious meetings regularly was associated with increased faith and positive religious coping, and reduced depression and intrusion perceived stress. While people with regular personal praying life also had increased peace, faith, and positive religious coping. However, there were no associations between studying religious books/materials regularly and spirituality, religious coping, mental health, and perceived stress.
 
 ***
 
-於2020年8月至10月進行了一項橫斷面在線調查，以評估香港健康成年人 (18歲或以上) 的靈性、宗教行為和信念、宗教應對、心理健康和自我認知壓力。透過滾雪球式取樣方式招募參加者，參加者要完成問卷，包括靈性 (FACIT-Sp-12)、自我認知壓力 (IES-R)、宗教應對 (Brief RCOPE)，焦慮與抑鬱量 (HADS)，及其他關於宗教行為和信念問卷。作為參與研究的獎勵，完成問卷的參與者會被邀請進行抽獎，並從中選出十名參與者，贏取價值200-500港元 (25-65 美元) 的超市優惠券。
+於2020年8月至10月進行了一項橫斷研究 (cross-sectional online survey)，以評估香港健康成年人 (18歲或以上) 的靈性、宗教行為和信念、宗教應對、心理健康和自我認知壓力。透過滾雪球式取樣方式招募參加者，參加者要完成問卷，包括靈性 (FACIT-Sp-12)、自我認知壓力 (IES-R)、宗教應對 (Brief RCOPE)，焦慮與抑鬱量 (HADS)，及其他關於宗教行為和信念問卷。作為參與研究的獎勵，完成問卷的參與者會被邀請進行抽獎，並從中選出十名參與者，贏取價值200-500港元 (25-65 美元) 的超市優惠券。
 
-本研究共收到418份參加者的回應，剔除了重複的回應後，共有360名參加者，只有112名參與者，自稱他們是基督复臨安息日會的信徒(`r format(round(112/360*100, 1), nsmall = 1)`%)。在這112名參加者中當中，分別有`r inline_text(intro, variable = HADS_anxiety_group_r, level = "Borderline abnormal", pattern = "{p}%")`和`r inline_text(intro, variable = HADS_depression_group_r, level = "Borderline abnormal", pattern = "{p}%")`是邊緣焦慮和邊緣抑鬱；而焦慮和抑鬱則分別有 `r inline_text(intro, variable = HADS_anxiety_group_r, level = "Abnormal", pattern = "{p}%")` 和 `r inline_text(intro, variable = HADS_depression_group_r, level = "Abnormal", pattern = "{p}%")`。多元線性回歸分析發現，定期參加宗教聚會與增加信心和積極的宗教應對有關，並能減少抑鬱和侵入性的自我認知壓力。此外，有規律的個人祈禱生活的人也令人更平安、更有信心、及更多使用正面的宗教應對方法。然而，閱讀宗教書籍與靈性、宗教應對、心理健康和自我認知壓力之間沒有關係。
+本研究共收到418份參加者的回應，剔除了重複的回應後，共有360名參加者，當中只有112名參與者是基督復臨安息日會的信徒(`r format(round(112/360*100, 1), nsmall = 1)`%)，當中，分別有`r inline_text(intro, variable = HADS_anxiety_group_r, level = "Borderline abnormal", pattern = "{p}%")`和`r inline_text(intro, variable = HADS_depression_group_r, level = "Borderline abnormal", pattern = "{p}%")`是邊緣焦慮和邊緣抑鬱；而焦慮和抑鬱則分別有 `r inline_text(intro, variable = HADS_anxiety_group_r, level = "Abnormal", pattern = "{p}%")` 和 `r inline_text(intro, variable = HADS_depression_group_r, level = "Abnormal", pattern = "{p}%")`。與香港的焦慮和抑鬱情況相比，本研究較少參加者有焦慮和抑鬱 [@choi2020depression]。多元線性回歸分析發現，定期參加宗教聚會與增加信心和積極的宗教應對有關，並能減少抑鬱和侵入性的自我認知壓力。此外，有規律的個人祈禱生活的人也令人更平安、更有信心、及更多使用正面的宗教應對方法。然而，閱讀宗教書籍與靈性、宗教應對、心理健康和自我認知壓力之間沒有關係。
 
 \newpage
 
@@ -353,9 +354,14 @@ psm
 # Acknowledgment
 We gratefully acknowledge the efforts of our survey respondents who took valuable time away from their day jobs to participate in this work. Also, we are particularly grateful to our research sponsors, Chinese Union Mission of Seventh-day Adventist Church, Hong Kong Adventist College, Hong Kong Adventist Hospital - Tsuen Wan, and Hong Kong Macau Conference of Seventh-day Adventists (in alphabetical order), without whom this study would not have been possible.
 
+# Reference
+
+<div id="refs"></div>
+
 \newpage
 # Appendix
-* FACIT-Sp-12
+FACIT-Sp-12
+
 + Meaning
   2.	我有活下去的理由
   3.	我的生命一直很豐盛
@@ -374,7 +380,8 @@ We gratefully acknowledge the efforts of our survey respondents who took valuabl
   11.	我的疾病使我的信念或信仰更加堅定
   12.	我知道不論我的疾病如何變化，一切都將安好
 
-* IES-R
+IES-R
+
 + Intrusion
   1.	任何有關那件事的事物也會引起我對那件事的感覺
   2.	我難於保持安睡
@@ -403,8 +410,9 @@ We gratefully acknowledge the efforts of our survey respondents who took valuabl
   19.	令我想起那件事的事物使我身體產生反應， 例如：流汗、呼吸困難、作嘔、或者強烈心跳
   21.	我覺得自己警覺性很高，處處提防
 
+\newpage
+Brief RCOPE
 
-* Brief RCOPE
 + Positive
   1.	我尋求更加親近上帝。
   2.	我尋求上帝的愛與看顧。
