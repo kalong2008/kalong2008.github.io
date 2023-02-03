@@ -5,6 +5,7 @@ on:
   schedule:
     - cron:  '0,10,20,30,40,50 * * * *'
 
+
 jobs: 
   autoscrape:
     # The type of runner that the job will run on
@@ -24,18 +25,11 @@ jobs:
     - name: Scrape
       run: Rscript script.R
       
-    - name: Render document
-      uses: lc5415/rmarkdown-action@v1
-      with:
-        input_file: report.rmd
-	output_format: html_document
-      
  # Add new files in data folder, commit along with other modified files, push
     - name: Commit files
       run: |
         git config --local user.name actions-user
         git config --local user.email "actions@github.com"
-        git add *
         git add data/*
         git commit -am "GH ACTION Headlines $(date)"
         git push origin main
