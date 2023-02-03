@@ -25,7 +25,7 @@ jobs:
     # Run R script
     - name: Scrape
       run: |
-        Rscript -e script.R
+        Rscript script.R
         Rscript -e 'rmarkdown::render("report.Rmd", output_format = "all")'
         
  # Add new files in data folder, commit along with other modified files, push
