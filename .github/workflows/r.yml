@@ -1,7 +1,10 @@
 name: sitemap_scraping
 
 # Controls when the action will run.
-on: workflow_dispatch
+on:
+  schedule:
+    - cron:  '0 01 * * *'
+
 
 
 jobs: 
