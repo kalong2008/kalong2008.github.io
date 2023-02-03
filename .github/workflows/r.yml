@@ -1,9 +1,7 @@
 name: sitemap_scraping
 
 # Controls when the action will run.
-on:
-  schedule:
-    - cron:  '0,10,20,30,40,50 * * * *'
+on: workflow_dispatch
 
 
 jobs: 
@@ -25,11 +23,18 @@ jobs:
     - name: Scrape
       run: Rscript script.R
       
+    - name: Render document
+      uses: lc5415/rmarkdown-action@v1
+      with:
+          input_file: report.Rmd
+	        output_format: html_document
+      
  # Add new files in data folder, commit along with other modified files, push
     - name: Commit files
       run: |
         git config --local user.name actions-user
         git config --local user.email "actions@github.com"
+        git add *
         git add data/*
         git commit -am "GH ACTION Headlines $(date)"
         git push origin main
