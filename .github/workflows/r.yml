@@ -3,7 +3,6 @@ name: sitemap_scraping
 # Controls when the action will run.
 on: workflow_dispatch
 
-
 jobs: 
   autoscrape:
     # The type of runner that the job will run on
