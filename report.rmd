@@ -26,7 +26,7 @@ You can also embed plots, for example:
 
 ```{r pressure, echo=FALSE}
 data <- read_csv('data/xml_url_count.csv')
-plot(data$nbr_url)
+data
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
